@@ -19,25 +19,19 @@ namespace EjemploConexion
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=(local);Initial Catalog=Aplicada1Db;Integrated Security=True");
-            SqlCommand Comand = new SqlCommand();
 
+            ConexionDb conexion = new ConexionDb();
             try
             {
-                con.Open();
-                Comand.Connection = con;
-                Comand.CommandText = String.Format( "Insert Into Cuotas(NoCuota,Capital,Interes) Values({0},{1},{2})", CuotatextBox.Text , CapitaltextBox.Text,InterestextBox.Text  );
-                Comand.ExecuteNonQuery();
+                 conexion.Ejecutar( String.Format( "Insert Into Cuotas(NoCuota,Capital,Interes) Values({0},{1},{2})", CuotatextBox.Text , CapitaltextBox.Text,InterestextBox.Text ) );
+                
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                con.Close();
-            }
+  
 
 
 
@@ -45,32 +39,18 @@ namespace EjemploConexion
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=(local);Initial Catalog=Aplicada1Db;Integrated Security=True");
-            SqlCommand Comand = new SqlCommand();
-
-            SqlDataAdapter adapter;
-            DataTable dt = new DataTable();
+            ConexionDb conexion = new ConexionDb();
 
             try
             {
-                con.Open();
-                Comand.Connection = con;
-                Comand.CommandText =  "Select * from Cuotas";
-
-                adapter = new SqlDataAdapter(Comand);
-                adapter.Fill(dt);
+                dataGridView1.DataSource = conexion.ObtenerDatos("Select * from Cuotas");              
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                con.Close();
-            }
-
-            dataGridView1.DataSource = dt;
+         
         }
     }
 }
